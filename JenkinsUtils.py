@@ -1,7 +1,7 @@
 #coding=utf-8
 import jenkins
 import JenkinsUtils
-from utils.FileOperate import FileOperate
+from utils.FileUtils import FileUtils
 
 
 class JenkinsUtils:
@@ -62,17 +62,21 @@ class JenkinsUtils:
         config_xml = f.readfile(config_file_path)
         server.create_job(jobname, config_xml)
 
-    def createView(self,name):
+    @classmethod
+    def create_view(cls, view_name):
         server = jenkins.Jenkins(JenkinsUtils.baseurl, username=JenkinsUtils.username, password=JenkinsUtils.password)
         f = FileOperate()
         conig_xml = f.readfile("ConfigXML\\viewtemplate.xml")
-        server.create_view(name,conig_xml)
+        server.create_view(view_name, conig_xml)
 
     def batchCreateJob(self):
         self.createjob("template_deploy", "ConfigXML\\folder_job_config.xml")
 
 if __name__ == '__main__':
     opt=JenkinsUtils()
+    a=FileOperate()
+    print  a.read_file('README.md')
+    print 1
     print opt.job_save_config_byview('template')
 
 
